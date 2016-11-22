@@ -1,6 +1,7 @@
 import os
 
-def uajko():
+
+def request_input():
     path = input("Enter path of file to control or type exit to terminate: ")
     if path == 'exit':
         exit(0)
@@ -11,39 +12,41 @@ def uajko():
         file = open(path, mode='r')
     except FileNotFoundError:
         print('Wrong path !')
-        uajko()
+        request_input()
 
     if os.path.isfile(path):
         return file
     else:
         print('{} is not a file'.format(path))
-        uajko()
-        
+        request_input()
+
+
 def main():
-   print('Word counter')
-   file = uajko()
+    print('Word counter')
+    file = request_input()
 
-   data = {}
+    data = {}
+    lines = file.readlines()
 
-   lines = file.readlines()
-   for line in lines:
+    for line in lines:
+        line = line.strip('\n')
         if line == '':
             continue
-        line = line.strip('\n')
-        riadok = line.split(' ')
-        for slovo in riadok:
-            if slovo == ' ':
+        line_words = line.split(' ')
+        for word in line_words:
+            if word == ' ':
                 continue
-            if slovo in data.keys():
-                data[slovo] = data[slovo] + 1
+            if word in data.keys():
+                data[word] += 1
             else:
-                data[slovo] = 1
+                data[word] = 1
 
-   for k,v in data.items():
-        print(k,v);
+    for k,v in data.items():
+        print(k, v)
 
-   print()
-   uajko()
+    print()
+    request_input()
+
 
 if __name__ == '__main__':
     main()

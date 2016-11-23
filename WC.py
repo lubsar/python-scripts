@@ -29,11 +29,12 @@ def main():
     lines = file.readlines()
 
     for line in lines:
-        line = line.strip('\n')
+        line = line.strip('\n!.,?-";')
         if line == '':
             continue
         line_words = line.split(' ')
         for word in line_words:
+            word = word.lower()
             if word == ' ':
                 continue
             if word in data.keys():

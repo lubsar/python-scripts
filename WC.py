@@ -1,52 +1,45 @@
-import os
+#                                         __
+#                                     _.-~  )
+#                          _..--~~~~,'   ,-/     _
+#                       .-'. . . .'   ,-','    ,' )
+#                     ,'. . . _   ,--~,-'__..-'  ,'
+#                   ,'. . .  (@)' ---~~~~      ,'
+#                  /. . . . '~~             ,-'
+#                 /. . . . .             ,-'
+#                ; . . . .  - .        ,'
+#               : . . . .       _     /
+#              . . . . .          `-.:
+#             . . . ./  - .          )
+#            .  . . |  _____..---.._/ ____ ~ Delfyn ~
+#      ~---~~~~----~~~~~~---~~~~----~~~
+from collections import Counter
 
 
-def request_input():
-    path = input("Enter path of file to control or type exit to terminate: ")
-    if path == 'exit':
-        exit(0)
-
-    file = None
-
+def ui():
     try:
+        path = input("Enter path of file to control or type exit to terminate: ")
         file = open(path, mode='r')
-    except FileNotFoundError:
-        print('Wrong path !')
-        request_input()
-
-    if os.path.isfile(path):
         return file
-    else:
-        print('{} is not a file'.format(path))
-        request_input()
+    except FileNotFoundError:
+         print('Wrong path !')
+         return ui() #TODO, PEP8
+
+
+def read_file(file):
+    lines = file.read()
+    words = str.split(lines)
+    return words
+
+
+def word_counter(most_common = 3):
+    counter = Counter(read_file(ui()))
+    test = counter.most_common(most_common)
+    return test
 
 
 def main():
     print('Word counter')
-    file = request_input()
-
-    data = {}
-    lines = file.readlines()
-
-    for line in lines:
-        line = line.strip('\n!.,?-";')
-        if line == '':
-            continue
-        line_words = line.split(' ')
-        for word in line_words:
-            word = word.lower()
-            if word == ' ':
-                continue
-            if word in data.keys():
-                data[word] += 1
-            else:
-                data[word] = 1
-
-    for k,v in data.items():
-        print(k, v)
-
-    print()
-    request_input()
+    print(word_counter())
 
 
 if __name__ == '__main__':

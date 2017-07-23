@@ -1,1 +1,0 @@
-def calculate_polynomial(polyn):
